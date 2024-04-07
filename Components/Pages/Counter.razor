@@ -10,12 +10,21 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<MyButton OnClick="IncrementCount" class="btn btn-success">Press My Button :)</MyButton>
 
-<p> InitialCount=@InitialCount</p>
+<p> event.ClientX: @MyEvent</p>
+
+<input type="text" @oninput="OnInputEvent">
+
+<div>Text is: @text</div>
+
+<div style="background-color: lightblue; height: 100px;" @onmouseover="MouseOver" @onmouseleave="OnMouseLeave">@divText</div>
 
 @code {
 
     private int currentCount = 0;
+    string text = "";
+    string divText = "Mouse Out";
 
     protected override void OnInitialized(){
         currentCount = InitialCount;
@@ -23,8 +32,14 @@
 
     [Parameter]
     public int InitialCount {get; set;}
-    private void IncrementCount()
+    public double MyEvent {get; set;}
+    private void IncrementCount(MouseEventArgs e)
     {
+
+        MyEvent = e.ClientX;
         currentCount++;
     }
+    private void OnInputEvent(ChangeEventArgs e) => text = (string)e.Value!;
+    private void MouseOver(MouseEventArgs e) => divText = "Mouse Over";
+    private void OnMouseLeave(MouseEventArgs e) => divText = "Mouse Left";
 }
